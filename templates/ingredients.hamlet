@@ -1,0 +1,19 @@
+<h1> Ingredients
+$if null ingredients
+    <p> There are no ingredients
+$else
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>Name
+        <th>Menge
+    <tbody>
+      $forall Entity _ ingredient <- ingredients
+        <tr>
+          <td>#{ingredientName ingredient}
+          <td>#{ingredientAmount ingredient}
+<hr>
+  <form method=post enctype=#{enctype}>
+    ^{ingredientWidget}
+    <div>
+        <input type=submit value="Add New Ingredient">

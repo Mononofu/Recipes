@@ -5,3 +5,6 @@
 /robots.txt RobotsR GET
 
 / HomeR GET POST
+
+/ingredient IngredientR GET POST
+/recipe RecipeR GET POST
