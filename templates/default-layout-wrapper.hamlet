@@ -14,8 +14,11 @@ $newline never
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <link rel=stylesheet media=screen href=@{StaticR css_bootstrap_responsive_css}>
-    <link rel=stylesheet media=screen href=@{StaticR css_font_awesome_css}>
+    <script type="text/javascript" src=@{StaticR js_jquery_js}></script>
+    <script type="text/javascript" src=@{StaticR js_jquery_dataTables_js}></script>
+    <script type="text/javascript" src=@{StaticR js_jquery_jeditable_js}></script>
+    <script type="text/javascript" src=@{StaticR js_bootstrap_js}></script>
+
     ^{pageHead pc}
 
     \<!--[if lt IE 9]>
@@ -31,9 +34,9 @@ $newline never
             <a class="brand" href="/">Recipes</a>
             <div class="nav-collapse collapse">
               <ul class="nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="/ingredient">Ingredients</a></li>
-                <li><a href="/recipes">Recipes</a></li>
+                <li :Just HomeR == mcurr:.active><a href="/">Home</a></li>
+                <li :Just IngredientR == mcurr:.active><a href="/ingredient">Ingredients</a></li>
+                <li :Just RecipeR == mcurr:.active><a href="/recipe">Recipes</a></li>
 
               <form class="navbar-form pull-right">
                 <input class="span2" type="text" placeholder="food name">

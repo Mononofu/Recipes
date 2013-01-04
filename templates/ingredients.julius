@@ -1,0 +1,72 @@
+
+$(document).ready(function() {
+  myTable = $('#entries').dataTable( {
+      "aaSorting": [[ 1, "desc" ]],
+      "aoColumns": [
+          null,
+          null,
+          null,
+          { "asSorting": [] }
+      ]
+  } );
+
+  makeEditable();
+
+  if(window.location.hash.length > 0) {
+    var search_term = window.location.hash.substring(1);
+    myTable.fnFilter(search_term);
+  }
+
+  $(".new_entry").submit(addRow);
+} );
+
+function makeEditable() {
+  /* Apply the jEditable handlers to the table */
+  myTable.$('.amount').editable(function(value, settings) {
+      var name = this.parentNode.children[0].innerHTML;
+
+      $.ajax({
+        url: "/ingredient",
+        data: {'name': name, 'amount': value},
+        type: "PUT"
+      });
+
+      return(value);
+    }, {
+      "height": "14px",
+      "width": "100%",
+      "tooltip": "Click to edit"
+  } );
+
+}
+
+function addRow(e) {
+  var name = $("#h2").val();
+  var amount = $("#h3").val();
+  var einheit = $("#h4").val();
+
+  $.post("/ingredient", {"f2": name, "f3": amount, "f4": einheit, "_token": $('#token').children()[0].value}, function(data, status) {
+    console.log(data);
+    console.log(status);
+  })
+
+  addData(name, amount, einheit);
+  makeEditable();
+  e.preventDefault(); // disable normal form submit behavior
+  return false;
+}
+
+function addData(name, amount, einheit) {
+  var new_row = [name, amount, einheit, '<a onclick="deleteRow(this)"><i class="icon-minus" style="color:red"></i></a>'];
+
+  myTable.fnAddData( new_row );
+}
+
+function deleteRow(target) {
+  $.ajax({
+    url: "/ingredient",
+    data: {'name': target.parentNode.parentNode.children[0].innerHTML},
+    type: "DELETE"
+  });
+  myTable.fnDeleteRow(target.parentNode.parentNode);
+}

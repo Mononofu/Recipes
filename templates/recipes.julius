@@ -1,0 +1,43 @@
+
+  $(document).ready(function() {
+    $('.typeahead').typeahead({"source": #{rawJS (show ingredientString)}});
+    $('.ingredient_input').change(inputAdder);
+
+
+    myTable = $('#entries').dataTable( {
+        "aaSorting": [[ 1, "desc" ]],
+        "aoColumns": [
+            null,
+            null,
+            { "asSorting": [] },
+            { "asSorting": [] }
+        ]
+    } );
+
+    if(window.location.hash.length > 0) {
+      var search_term = window.location.hash.substring(1);
+      myTable.fnFilter(search_term);
+    }
+  } );
+
+function inputAdder() {
+  var inputs = $('.ingredient_input');
+  var last = inputs[inputs.length - 1];
+  if( last.value != "") {
+    var input = last.cloneNode();
+    input.value = ""
+    last.parentNode.appendChild(input);
+
+    $('.typeahead').typeahead({"source": #{rawJS (show ingredientString)}});
+    $('.ingredient_input').change(inputAdder);
+
+  }
+}
+
+function deleteRow(target) {
+  $.ajax({
+    url: "/recipe/" + target.parentNode.parentNode.children[0].innerHTML,
+    type: "DELETE"
+  });
+  myTable.fnDeleteRow(target.parentNode.parentNode);
+}

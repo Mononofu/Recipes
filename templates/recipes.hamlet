@@ -1,0 +1,25 @@
+<h1> Recipes
+$if null recipes
+    <p> There are no recipes
+$else
+  <br>
+  <table class="table" id="entries">
+    <thead>
+      <tr>
+        <th>Name
+        <th>Beschreibung
+        <th>Zutaten
+        <th>
+    <tbody>
+      $forall (recipe, ingredients) <- pairedRecipes
+        <tr>
+          <td>#{recipeName recipe}
+          <td>#{recipeDescription recipe}
+          <td>#{intercalate  ", " $ map unpack ingredients}
+          <td><a onclick="deleteRow(this)"><i class="icon-minus" style="color:red"></i></a>
+<br>
+<hr>
+  <form method=post enctype=#{enctype}>
+    ^{recipeWidget}
+    <div>
+        <input type=submit value="Add New recipe">

@@ -1,19 +1,21 @@
 <h1> Ingredients
-$if null ingredients
-    <p> There are no ingredients
-$else
-  <table class="table table-hover table-bordered">
-    <thead>
+<br>
+<table class="table" id="entries">
+  <thead>
+    <tr>
+      <th>Name
+      <th>Menge
+      <th>Einheit
+      <th>
+  <tbody>
+    $forall Entity _ ingredient <- ingredients
       <tr>
-        <th>Name
-        <th>Menge
-    <tbody>
-      $forall Entity _ ingredient <- ingredients
-        <tr>
-          <td>#{ingredientName ingredient}
-          <td>#{ingredientAmount ingredient}
+        <td>#{ingredientName ingredient}
+        <td class="amount">#{ingredientAmount ingredient}
+        <td>#{ingredientEinheit ingredient}
+        <td><a onclick="deleteRow(this)"><i class="icon-minus" style="color:red"></i></a>
+  <tfoot>
+    <tr>
+      ^{ingredientWidget}
+<br>
 <hr>
-  <form method=post enctype=#{enctype}>
-    ^{ingredientWidget}
-    <div>
-        <input type=submit value="Add New Ingredient">
